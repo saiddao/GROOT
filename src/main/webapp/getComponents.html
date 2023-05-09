@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SoS Selector</title>
+</head>
+<body>
+	<h1>Select a System of Systems</h1>
+	<select id="sos-selector">
+	</select>
+
+	<h1>Select a Device</h1>
+	<select id="device-selector">
+	</select>
+
+	<h1>Select a Component</h1>
+	<select id="component-selector">
+	</select>
+
+
+
+
+	<script>
+		// Get the select elements
+		const sosSelectEl = document.getElementById('sos-selector');
+		const deviceSelectEl = document.getElementById('device-selector');
+		const componentSelectEl = document.getElementById('component-selector');
+
+
+
+
+// Get the components select element
+const componentsSelectEl = document.getElementById('components-selector');
+
+deviceSelectEl.addEventListener('change', () => {
+	const selectedSosId = sosSelectEl.value;
+	const selectedDeviceId = deviceSelectEl.value;
+
+	// Make an HTTP request to the server to get the component data for the selected device
+	fetch('http://localhost:8283/ontologymanager/biecointerface/', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+            'Authorization': 'qJACs1J0apruOOJCg'
+		},
+		body: JSON.stringify({
+		    "jobID": "1234",
+		    "timestamp":"",
+		    "messageType": "Data",
+		    "sourceID":"4",
+		    "event": { "OntologyRequest" :{ 
+		    	"operationName": "getcomponents",
+		    	"sosId" : selectedSosId,
+		    	"deviceId" : selectedDeviceId }
+		    	},
+		    "crc":1234567
+		})
+	})
+		.then(response => response.json())
+		.then(data => {
+			// Remove previous options from the component select element
+			componentSelectEl.innerHTML = '';
+
+			// Add options to the component select element
+			data.forEach(component => {
+				const optionEl = document.createElement('option');
+				optionEl.value = component.componentId;
+				optionEl.text = component.componentName;
+				componentSelectEl.appendChild(optionEl);
+			});
+		})
+		.catch(error => console.error(error));
+});
+
+
+
+
+		// Make an HTTP request to the server to get the SOS data
+		fetch('http://localhost:8283/ontologymanager/biecointerface/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+                'Authorization': 'qJACs1J0apruOOJCg'
+			},
+			body: JSON.stringify({
+			    "jobID": "1234",
+			    "timestamp":"",
+			    "messageType": "Data",
+			    "sourceID":"4",
+			    "event": { "OntologyRequest" :{ 
+			    	"operationName": "getsoss"}
+			    },
+			    "crc":1234567
+			})
+		})
+			.then(response => response.json())
+			.then(data => {
+				// Add options to the SOS select element
+				data.forEach(sos => {
+					const optionEl = document.createElement('option');
+					optionEl.value = sos.sosId;
+					optionEl.text = sos.sosName;
+					sosSelectEl.appendChild(optionEl);
+				});
+
+				// When the user selects an SOS, make an HTTP request to the server to get the devices
+				sosSelectEl.addEventListener('change', () => {
+					const sosId = sosSelectEl.value;
+					
+					// Make an HTTP request to the server to get the device data for the selected SOS
+					fetch('http://localhost:8283/ontologymanager/biecointerface/', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+                			'Authorization': 'qJACs1J0apruOOJCg'
+						},
+						body: JSON.stringify({
+						    "jobID": "1234",
+						    "timestamp":"",
+						    "messageType": "Data",
+						    "sourceID":"4",
+						    "event": { "OntologyRequest" :{ 
+						    	"operationName": "getdevices",
+						    	"sosId" : sosId }
+						    	},
+						    "crc":1234567
+						})
+					})
+						.then(response => response.json())
+						.then(data => {
+							// Remove previous options from the device select element
+							deviceSelectEl.innerHTML = '';
+
+							// Add options to the device select element
+							data.forEach(device => {
+								const optionEl = document.createElement('option');
+								optionEl.value = device.deviceId;
+								optionEl.text = device.deviceName;
+								deviceSelectEl.appendChild(optionEl);
+							});
+						})
+						.catch(error => console.error(error));
+				});
+			})
+			.catch(error => console.error(error));
+	</script>
+</body>
+</html>

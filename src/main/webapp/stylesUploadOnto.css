@@ -1,0 +1,33 @@
+/* Style for the file input */
+input[type="file"] {
+  display: block;
+  margin: 20px auto;
+}
+
+/* Style for the file content display */
+#file-content {
+  margin: 20px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-family: monospace;
+  white-space: pre-wrap;
+  max-width: 90%;
+}
+
+/* Style for the submit button */
+#submit-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Style for the error message */
+#error-message {
+  margin: 10px auto;
+  color: red;
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dynamic Tree Example</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Include the required CSS and JavaScript files -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+</head>
+<body>
+  <h1>Dynamic Tree Example</h1>
+  <div id="tree"></div>
+  <h2>Add Node</h2>
+  <form>
+    <label for="nodeName">Node Name:</label>
+    <input type="text" id="nodeName" name="nodeName"><br>
+    <label for="parentNode">Parent Node:</label>
+    <input type="text" id="parentNode" name="parentNode"><br>
+    <label for="nodeType">Node Type:</label>
+    <select id="nodeType" name="nodeType">
+      <option value="sos">SoS</option>
+      <option value="device">Device</option>
+      <option value="component">Component</option>
+      <option value="skill">Skill</option>
+      <option value="rule">Rule</option>
+    </select><br>
+    <input type="button" id="addNode" value="Add Node">
+  </form>
+
+  <script src="script.js"></script>
+</body>
+</html>

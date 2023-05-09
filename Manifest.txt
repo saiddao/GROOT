@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Created-By: Said Daoudagh (ISTI-CNR)
+Main-Class:  it.cnr.isti.sedc.bieco.groot.rest.main

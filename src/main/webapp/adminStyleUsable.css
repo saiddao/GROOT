@@ -1,0 +1,257 @@
+/* Update colors */
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #F7F7F7;
+  }
+  
+  header {
+	background-color: #212529;
+	color: white;
+	padding: 10px;
+  }
+  
+  nav {
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #E5E5E5;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	margin-bottom: 20px;
+  }
+  
+  nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+  }
+  
+  nav li {
+	margin-right: 20px;
+  }
+  
+  nav a {
+	text-decoration: none;
+	color: #212529;
+	padding: 10px;
+	border-radius: 5px;
+	transition: all 0.2s;
+	border: none;
+  }
+  
+  nav a:hover {
+	background-color: #212529;
+	color: white;
+  }
+  
+  main {
+	padding: 10px;
+  }
+  
+  section {
+	margin-bottom: 30px;
+  }
+  
+  .container {
+	max-width: 800px;
+	margin: 20px auto;
+	padding: 30px;
+	background-color: #FFFFFF;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-control {
+	margin-bottom: 20px;
+  }
+  
+  .form-control label {
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 5px;
+  }
+  
+  .form-control input[type="file"] {
+	display: block;
+	margin-top: 5px;
+	font-size: 16px;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	background-color: #F7F7F7;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-control pre {
+	font-size: 16px;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	background-color: #F2F2F2;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	white-space: pre-wrap;
+	word-wrap: break-word;
+  }
+  
+  .btn {
+	display: block;
+	margin: 20px auto 0;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	background-color: #212529;
+	color: #FFFFFF;
+	font-size: 16px;
+	cursor: pointer;
+	transition: all 0.2s;
+  }
+  
+  .btn:hover {
+	background-color: #FFFFFF;
+	color: #212529;
+  }
+  
+  /* Update shape */
+  select,
+  input[type="text"],
+  textarea {
+	padding: 10px;
+	font-size: 16px;
+	margin-bottom: 20px;
+	border-radius: 5px;
+	border: none;
+	background-color: #F2F2F2;
+	width: 100%;
+	max-width: 400px;
+  }
+  
+/* Alternative CSS for file upload button */
+
+input[type="file"]::-webkit-file-upload-button {
+	padding: 10px;
+	font-size: 16px;
+	background-color: #4CAF50;
+	color: white;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+	transition: all 0.2s;
+  }
+  
+  input[type="file"]::-webkit-file-upload-button:hover {
+	background-color: #3E8E41;
+  }
+  
+  /* Alternative CSS for select element */
+  
+  select {
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 5px;
+	border: none;
+	background-color: #F0F0F0;
+	width: 100%;
+	max-width: 400px;
+	cursor: pointer;
+	transition: all 0.2s;
+  }
+  
+  select:hover {
+	background-color: #E0E0E0;
+  }
+  
+  select:focus {
+	outline: none;
+	box-shadow: 0 0 5px #0074D9;
+  }
+  
+  /* Alternative CSS for button */
+  
+  .btn {
+	display: block;
+	margin: 20px auto 0;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	background-color: #0074D9;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	transition: all 0.2s;
+  }
+  
+  .btn:hover {
+	background-color: #0063AF;
+  }
+  
+  .btn:focus {
+	outline: none;
+	box-shadow: 0 0 5px #0074D9;
+  }
+  
+  /* Alternative CSS for container */
+  
+  .container {
+	max-width: 600px;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	transition: all 0.2s;
+  }
+  
+  .container:hover {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  }
+  
+  .container:focus-within {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Alternative CSS for form control */
+  
+  .form-control label {
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 5px;
+  }
+  
+  .form-control input[type="file"] {
+	display: block;
+	margin-top: 5px;
+	font-size: 16px;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	background-color: #F0F0F0;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	transition: all 0.2s;
+  }
+  
+  .form-control pre {
+	font-size: 16px;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	background-color: #F0F0F0;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	white-space: pre-wrap;
+	word-wrap: break-word;
+  }
+  
+  .form-control input[type="file"]:focus, .form-control pre:focus {
+	outline: none;
+	box-shadow: 0 0 5px #0074D9;
+  }
+  
+  /* Alternative CSS
+  

@@ -1,0 +1,123 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "sosName": {
+          "type": "string"
+        },
+        "devices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "components": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "skills": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "skillName": {
+                            "type": "string"
+                          },
+                          "skillId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "rules": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "welldefinedrule": {
+                                  "type": "string"
+                                },
+                                "ruleType": {
+                                  "type": "string",
+                                  "enum": [
+                                    "Standard",
+                                    "Pure Predictive"
+                                  ]
+                                },
+                                "abstractrule": {
+                                  "type": "string"
+                                },
+                                "ruleName": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "ruleId": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "welldefinedrule",
+                                "ruleType",
+                                "abstractrule",
+                                "ruleName",
+                                "description",
+                                "ruleId"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "skillName",
+                          "skillId",
+                          "description",
+                          "rules"
+                        ]
+                      }
+                    },
+                    "componentId": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "componentName": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "skills",
+                    "componentId",
+                    "description",
+                    "componentName"
+                  ]
+                }
+              },
+              "description": {
+                "type": "string"
+              },
+              "deviceName": {
+                "type": "string"
+              },
+              "deviceId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "components",
+              "description",
+              "deviceName",
+              "deviceId"
+            ]
+          }
+        }
+      },
+      "required": [
+        "sosName",
+        "devices"
+      ]
+    }
+  }

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ontology Manager</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+	<h1>Select a System of Systems</h1>
+	<select id="sos-selector">
+	</select>
+
+	<h1>Select a Device</h1>
+	<select id="device-selector">
+	</select>
+
+	<h1>Select a Component</h1>
+	<select id="component-selector">
+	</select>
+
+	<h1>Select a Skill</h1>
+	<select id="skill-selector">
+	</select>
+
+	<script>
+function fetchData(operationName, valueKey, textKey, selectEl, ...args) {
+	const payload = {
+	  jobID: "1234",
+	  timestamp: "",
+	  messageType: "Data",
+	  sourceID: "4",
+	  event: {
+		OntologyRequest: {
+		  operationName,
+		},
+	  },
+	  crc: 1234567,
+	};
+  
+	if (args.length % 2 !== 0) {
+	  console.error("Invalid number of arguments");
+	  return;
+	}
+  
+	for (let i = 0; i < args.length; i += 2) {
+	  payload.event.OntologyRequest[args[i]] = args[i + 1];
+	}
+  
+	fetch("http://localhost:8283/ontologymanager/biecointerface/", {
+	  method: "POST",
+	  headers: {
+		"Content-Type": "application/json",
+		Authorization: "qJACs1J0apruOOJCg",
+	  },
+	  body: JSON.stringify(payload),
+	})
+	  .then((response) => response.json())
+	  .then((data) => {
+		// Remove previous options from the select element
+		selectEl.innerHTML = "";
+  
+		// Add options to the select element
+		data.forEach((item) => {
+		  const optionEl = document.createElement("option");
+		  optionEl.value = item[valueKey];
+		  optionEl.text = item[textKey];
+		  selectEl.appendChild(optionEl);
+		});
+  
+		// Fetch and display the related skills for the selected component
+		const selectedComponentId = componentSelectEl.value;
+		if (selectedComponentId) {
+		  fetchData(
+			"getskills",
+			"skillId",
+			"skillName",
+			skillSelectEl,
+			"sosId",
+			sosSelectEl.value,
+			"deviceId",
+			deviceSelectEl.value,
+			"componentId",
+			selectedComponentId
+		  );
+		}
+	  })
+	  .catch((error) => console.error(error));
+  }
+
+
+
+		const sosSelectEl = document.getElementById('sos-selector');
+		const deviceSelectEl = document.getElementById('device-selector');
+		const componentSelectEl = document.getElementById('component-selector');
+		const skillSelectEl = document.getElementById('skill-selector');
+
+		fetchData('getsoss', 'sosId', 'sosName', sosSelectEl);
+
+		sosSelectEl.addEventListener('change', () => {
+			fetchData('getdevices', 'deviceId', 'deviceName', deviceSelectEl, 'sosId', sosSelectEl.value);
+		});
+
+		deviceSelectEl.addEventListener('change', () => {
+			fetchData('getcomponents', 'componentId', 'componentName', componentSelectEl, 'sosId', sosSelectEl.value, 'deviceId', deviceSelectEl.value);
+		});
+
+		componentSelectEl.addEventListener('change', () => {
+			fetchData('getskills', 'skillId', 'skillName', skillSelectEl, 'sosId', sosSelectEl.value, 'deviceId', deviceSelectEl.value, 'componentId', componentSelectEl.value);
+		});
+
+
+		function fetchData(operationName, valueKey, textKey, selectEl, ...args) {
+			const payload = {
+				jobID: '1234',
+				timestamp: '',
+				messageType: 'Data',
+				sourceID: '4',
+				event: {
+					OntologyRequest: {
+						operationName
+					}
+				},
+				crc: 1234567
+			};
+
+			if (args.length % 2 !== 0) {
+				console.error('Invalid number of arguments');
+				return;
+			}
+
+			for (let i = 0; i < args.length; i += 2) {
+				payload.event.OntologyRequest[args[i]] = args[i+1];
+			}
+
+			fetch('http://localhost:8283/ontologymanager/biecointerface/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+                	'Authorization': 'qJACs1J0apruOOJCg'
+				},
+				body: JSON.stringify(payload)
+			})
+			.then(response => response.json())
+			.then(data => {
+				// Remove previous options from the select element
+				selectEl.innerHTML = '';
+
+				// Add options to the select element
+				data.forEach(item => {
+					const optionEl = document.createElement('option');
+					optionEl.value = item[valueKey];
+					optionEl.text = item[textKey];  
+					selectEl.appendChild(optionEl);
+				});
+			})
+			.catch(error => console.error(error));
+		}
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

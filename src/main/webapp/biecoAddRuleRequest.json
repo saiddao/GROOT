@@ -1,0 +1,21 @@
+{
+    "ontologyContent": {
+        "welldefined": "afsa",
+        "ruleType": "Pure Predictive",
+        "abstractrule": "afaf",
+        "ruleName": "Said",
+        "description": "Daoudagh",
+        "ruleId": "ddsad",
+        "parameters": [
+            {
+                "name": "afsa",
+                "value": "afsa"
+            },
+            {
+                "name": "fff",
+                "value": "fff"
+            }
+        ]
+    },
+    "operationName": "addnewrule"
+}

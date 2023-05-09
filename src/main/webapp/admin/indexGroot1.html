@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GROOT </title>
+  <link rel="stylesheet" type="text/css" href="grootStyle.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		// function to load AC policy file and show its content in the text area
+		function loadPolicy() {
+			var file = $("#policyFile")[0].files[0];
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#policyContent").val(e.target.result);
+			}
+			reader.readAsText(file);
+		}
+
+		// function to generate access control requests and display them in a table
+		function generateRequests() {
+			var policyContent = $("#policyContent").val();
+			// code to generate requests goes here
+			var requests = [
+				{ id: 1, request: "Request 1", oracle: "Permit", response: "Permit" },
+				{ id: 2, request: "Request 2", oracle: "Deny", response: "Permit" },
+				{ id: 3, request: "Request 3", oracle: "Deny", response: "Deny" }
+			];
+
+      // create a connection to the GROOT Manager and send a POST
+      const payload = {
+						jobID: '1234',
+						timestamp: '',
+						messageType: 'Data',
+						sourceID: '4',
+						event: {
+							GrootRequest: {
+								operationName: 'getACRequests',
+                ACPolicy: policyContent
+							}
+						},
+						crc: 1234567
+					};
+
+          fetch('http://localhost:8283/groot/biecointerface/', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': 'qJACs1J0apruOOJCgGROOT'
+						},
+						body: JSON.stringify(payload)
+					})
+						.then(response => response.json())
+						.then(data => {
+							// Remove previous options from the select element
+							selectEl.innerHTML = '';
+							// Concatenate payload and data and log in logArea
+							const logData = {
+								OM_Request: payload,
+								OM_Response: data
+							};
+
+							logArea.innerText = JSON.stringify(logData, null, 2);
+
+							// Add options to the select element
+							data.forEach(item => {
+								const optionEl = document.createElement('option');
+								optionEl.value = item[valueKey];
+								optionEl.text = item[textKey];
+								selectEl.appendChild(optionEl);
+							});
+						})
+						.catch(error => console.error(error));
+
+
+			// create table rows for each request
+			var tableRows = "";
+			for (var i = 0; i < requests.length; i++) {
+				tableRows += "<tr><td>" + requests[i].id + "</td><td>" + requests[i].request + "</td><td>" + requests[i].oracle + "</td><td></td></tr>";
+			}
+			$("#requestsTable tbody").html(tableRows);
+		}
+
+		// function to generate expected responses (oracle) for each request
+		function generateOracle() {
+			$("#requestsTable tbody tr").each(function() {
+				var request = $(this).find("td:nth-child(2)").html();
+				// code to generate oracle for request goes here
+				var oracle = "Permit";
+				$(this).find("td:nth-child(3)").html(oracle);
+			});
+		}
+
+		// function to evaluate actual responses for each request
+		function evaluateRequests() {
+			$("#requestsTable tbody tr").each(function() {
+				var request = $(this).find("td:nth-child(2)").html();
+				// code to evaluate actual response for request goes here
+				var response = "Permit";
+				$(this).find("td:nth-child(4)").html(response);
+			});
+		}
+	</script>
+</head>
+<body>
+	<h1>GROOT :: GdpR-based cOmbinatOrial Testing</h1>
+	<p>Select the AC policy:</p>
+	<input type="file" id="policyFile" onchange="loadPolicy()">
+	<br><br>
+	<textarea id="policyContent" rows="30" cols="150" readonly></textarea>
+	<br><br>
+	<button onclick="generateRequests()">Generate AC Requests</button>
+	<button onclick="generateOracle()">Generate Oracle</button>
+	<button onclick="evaluateRequests()">Evaluate AC Requests</button>
+	<br><br>
+	<table id="requestsTable">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Request</th>
+				<th>Oracle</th>
+				<th>Actual Response</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- rows for requests will be dynamically generated here -->
+		</tbody>
+	</table>
+</body>
+</html>

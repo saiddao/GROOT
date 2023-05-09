@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ontology Manager Administrator</title>
+	<link rel="stylesheet" type="text/css" href="adminStyle2.css">
+</head>
+<body>
+	<header>
+		<h1>Ontology Manager Administrator</h1>
+	</header>
+	<nav>
+		<ul>
+			<li><a href="#home" id="home">Home</a></li>
+			<li><a href="#upload" id="upload-ontology">Upload Ontology</a></li>
+			<li><a href="#navigate" id="navigate-ontology">Navigate Ontology</a></li>
+			<li><a href="#delete" id="delete-ontology">Delete Ontology</a></li>
+			<li><a href="#update" id="update-ontology">Update Ontology</a></li>
+		</ul>
+	</nav>
+	<main>
+		<section id="home-section">
+			<h2>Welcome to the Ontology Manager Administrator</h2>
+			<p>Use the menu above to navigate the various functionality available in this tool.</p>
+		</section>
+		<section id="upload-section">
+			<h2>Upload Ontology</h2>
+			<p>This is the section for uploading ontology files.</p>
+
+			<div class="container">
+				<form id="form" action="http://localhost:8283/ontologymanager/biecointerface/" method="post">
+					<div class="form-control">
+						<label for="file-input">Select a file:</label>
+						<input type="file" id="file-input" name="file">
+					</div>
+					<div class="form-control">
+						<label>File content:</label>
+						<pre id="file-content"></pre>
+					</div>
+					<button type="submit" class="btn">Submit</button>
+				</form>
+			</div>
+		
+			<script>
+				const form = document.getElementById('form');
+				const fileInput = document.getElementById('file-input');
+				const fileContent = document.getElementById('file-content');
+		
+				fileInput.addEventListener('change', (event) => {
+					const file = event.target.files[0];
+					const reader = new FileReader();
+					reader.onload = (event) => {
+						fileContent.textContent = event.target.result;
+					};
+					reader.readAsText(file);
+				});
+		
+				form.addEventListener('submit', (event) => {
+					event.preventDefault();
+					const file = fileInput.files[0];
+					const reader = new FileReader();
+					reader.onload = (event) => {
+						const content = event.target.result;
+						fileContent.textContent = content;
+						const xhr = new XMLHttpRequest();
+						xhr.open('POST', 'http://localhost:8283/ontologymanager/biecointerface/', true);
+						xhr.setRequestHeader('Content-Type', 'application/json');
+						xhr.setRequestHeader('Authorization', 'qJACs1J0apruOOJCg');
+						xhr.onload = function() {
+							if (xhr.status === 200) {
+								status.textContent = 'Upload successful!';
+							} else {
+								status.textContent = 'Upload failed: ' + xhr.status;
+							}
+						};
+						const data = {
+							jobID: '1234',
+							timestamp: '',
+							messageType: 'Data',
+							sourceID: '4',
+							event: {
+								OntologyRequest: {
+									operationName: 'uploadontology',
+									ontologyContent: content
+								}
+							},
+							crc: 1234567
+						};
+						xhr.send(JSON.stringify(data));
+					};
+					reader.readAsText(file);
+				});
+			</script>
+
+
+
+
+		</section>
+		<section id="navigate-section">
+			<h2>Navigate Ontology</h2>
+			<p>This is the section for navigating the ontology.</p>
+
+
+			<h1>Select a System of Systems</h1>
+			<select id="sos-selector">
+			</select>
+		
+			<h1>Select a Device</h1>
+			<select id="device-selector">
+			</select>
+		
+			<h1>Select a Component</h1>
+			<select id="component-selector">
+			</select>
+		
+			<h1>Select a Skill</h1>
+			<select id="skill-selector">
+			</select>
+		
+			<script>
+		function fetchData(operationName, valueKey, textKey, selectEl, ...args) {
+			const payload = {
+			  jobID: "1234",
+			  timestamp: "",
+			  messageType: "Data",
+			  sourceID: "4",
+			  event: {
+				OntologyRequest: {
+				  operationName,
+				},
+			  },
+			  crc: 1234567,
+			};
+		  
+			if (args.length % 2 !== 0) {
+			  console.error("Invalid number of arguments");
+			  return;
+			}
+		  
+			for (let i = 0; i < args.length; i += 2) {
+			  payload.event.OntologyRequest[args[i]] = args[i + 1];
+			}
+		  
+			fetch("http://localhost:8283/ontologymanager/biecointerface/", {
+			  method: "POST",
+			  headers: {
+				"Content-Type": "application/json",
+				Authorization: "qJACs1J0apruOOJCg",
+			  },
+			  body: JSON.stringify(payload),
+			})
+			  .then((response) => response.json())
+			  .then((data) => {
+				// Remove previous options from the select element
+				selectEl.innerHTML = "";
+		  
+				// Add options to the select element
+				data.forEach((item) => {
+				  const optionEl = document.createElement("option");
+				  optionEl.value = item[valueKey];
+				  optionEl.text = item[textKey];
+				  selectEl.appendChild(optionEl);
+				});
+		  
+				// Fetch and display the related skills for the selected component
+				const selectedComponentId = componentSelectEl.value;
+				if (selectedComponentId) {
+				  fetchData(
+					"getskills",
+					"skillId",
+					"skillName",
+					skillSelectEl,
+					"sosId",
+					sosSelectEl.value,
+					"deviceId",
+					deviceSelectEl.value,
+					"componentId",
+					selectedComponentId
+				  );
+				}
+			  })
+			  .catch((error) => console.error(error));
+		  }
+		
+				const sosSelectEl = document.getElementById('sos-selector');
+				const deviceSelectEl = document.getElementById('device-selector');
+				const componentSelectEl = document.getElementById('component-selector');
+				const skillSelectEl = document.getElementById('skill-selector');
+		
+				fetchData('getsoss', 'sosId', 'sosName', sosSelectEl);
+		
+				sosSelectEl.addEventListener('change', () => {
+					fetchData('getdevices', 'deviceId', 'deviceName', deviceSelectEl, 'sosId', sosSelectEl.value);
+				});
+		
+				deviceSelectEl.addEventListener('change', () => {
+					fetchData('getcomponents', 'componentId', 'componentName', componentSelectEl, 'sosId', sosSelectEl.value, 'deviceId', deviceSelectEl.value);
+				});
+		
+				componentSelectEl.addEventListener('change', () => {
+					fetchData('getskills', 'skillId', 'skillName', skillSelectEl, 'sosId', sosSelectEl.value, 'deviceId', deviceSelectEl.value, 'componentId', componentSelectEl.value);
+				});
+		
+		
+				function fetchData(operationName, valueKey, textKey, selectEl, ...args) {
+					const payload = {
+						jobID: '1234',
+						timestamp: '',
+						messageType: 'Data',
+						sourceID: '4',
+						event: {
+							OntologyRequest: {
+								operationName
+							}
+						},
+						crc: 1234567
+					};
+		
+					if (args.length % 2 !== 0) {
+						console.error('Invalid number of arguments');
+						return;
+					}
+		
+					for (let i = 0; i < args.length; i += 2) {
+						payload.event.OntologyRequest[args[i]] = args[i+1];
+					}
+		
+					fetch('http://localhost:8283/ontologymanager/biecointerface/', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': 'qJACs1J0apruOOJCg'
+						},
+						body: JSON.stringify(payload)
+					})
+					.then(response => response.json())
+					.then(data => {
+						// Remove previous options from the select element
+						selectEl.innerHTML = '';
+		
+						// Add options to the select element
+						data.forEach(item => {
+							const optionEl = document.createElement('option');
+							optionEl.value = item[valueKey];
+							optionEl.text = item[textKey];  
+							selectEl.appendChild(optionEl);
+						});
+					})
+					.catch(error => console.error(error));
+				}
+			</script>
+
+
+
+
+
+
+
+
+
+
+
+
+		</section>
+		<section id="delete-section">
+			<h2>Delete Ontology</h2>
+			<p>This is the section for deleting ontologies.</p>
+		</section>
+		<section id="update-section">
+			<h2>Update Ontology</h2>
+			<p>This is the section for updating ontologies.</p>
+		</section>
+	</main>
+	<script>
+		// Get menu links and sections
+		const homeLink = document.getElementById('home');
+		const homeSection = document.getElementById('home-section');
+		const uploadLink = document.getElementById('upload-ontology');
+		const uploadSection = document.getElementById('upload-section');
+		const navigateLink = document.getElementById('navigate-ontology');
+		const navigateSection = document.getElementById('navigate-section');
+		const deleteLink = document.getElementById('delete-ontology');
+		const deleteSection = document.getElementById('delete-section');
+		const updateLink = document.getElementById('update-ontology');
+		const updateSection = document.getElementById('update-section');
+	  
+		// Hide all sections except the home section on page load
+		uploadSection.style.display = 'none';
+		navigateSection.style.display = 'none';
+		deleteSection.style.display = 'none';
+		updateSection.style.display = 'none';
+	  
+		// Add event listeners to menu links to show their respective sections
+		homeLink.addEventListener('click', () => {
+		  homeSection.style.display = 'block';
+		  uploadSection.style.display = 'none';
+		  navigateSection.style.display = 'none';
+		  deleteSection.style.display = 'none';
+		  updateSection.style.display = 'none';
+		});
+	  
+		uploadLink.addEventListener('click', () => {
+		  homeSection.style.display = 'none';
+		  uploadSection.style.display = 'block';
+		  navigateSection.style.display = 'none';
+		  deleteSection.style.display = 'none';
+		  updateSection.style.display = 'none';
+		});
+	  
+		navigateLink.addEventListener('click', () => {
+		  homeSection.style.display = 'none';
+		  uploadSection.style.display = 'none';
+		  navigateSection.style.display = 'block';
+		  deleteSection.style.display = 'none';
+		  updateSection.style.display = 'none';
+		});
+	  
+		deleteLink.addEventListener('click', () => {
+		  homeSection.style.display = 'none';
+		  uploadSection.style.display = 'none';
+		  navigateSection.style.display = 'none';
+		  deleteSection.style.display = 'block';
+		  updateSection.style.display = 'none';
+		});
+	  
+		updateLink.addEventListener('click', () => {
+		  homeSection.style.display = 'none';
+		  uploadSection.style.display = 'none';
+		  navigateSection.style.display = 'none';
+		  deleteSection.style.display = 'none';
+		  updateSection.style.display = 'block';
+		});
+	  </script>
+</body>
+</html>
+	  

@@ -1,0 +1,172 @@
+[ 
+
+{
+    "OM_Request": {
+      "jobID": "1234",
+      "timestamp": "",
+      "messageType": "Data",
+      "sourceID": "4",
+      "event": {
+        "OntologyRequest": {
+          "operationName": "getsoss"
+        }
+      },
+      "crc": 1234567
+    },
+    "OM_Response": [
+      {
+        "sosName": "SoS 1 Name",
+        "description": "Description of SoS SoS 1 Name",
+        "sosId": "1"
+      },
+      {
+        "sosName": "SoS 2 Name",
+        "description": "Description of SoS SoS 2 Name",
+        "sosId": "2"
+      }
+    ]
+  },
+  {
+    "OM_Request": {
+      "jobID": "1234",
+      "timestamp": "",
+      "messageType": "Data",
+      "sourceID": "4",
+      "event": {
+        "OntologyRequest": {
+          "operationName": "getdevices",
+          "sosId": "1"
+        }
+      },
+      "crc": 1234567
+    },
+    "OM_Response": [
+      {
+        "description": "Description of ",
+        "deviceName": "Device_1_1",
+        "deviceId": "1"
+      },
+      {
+        "description": "Description of ",
+        "deviceName": "Device_2",
+        "deviceId": "2"
+      }
+    ]
+  },
+  {
+    "OM_Request": {
+      "jobID": "1234",
+      "timestamp": "",
+      "messageType": "Data",
+      "sourceID": "4",
+      "event": {
+        "OntologyRequest": {
+          "operationName": "getcomponents",
+          "sosId": "1",
+          "deviceId": "2"
+        }
+      },
+      "crc": 1234567
+    },
+    "OM_Response": [
+      {
+        "componentId": "1",
+        "description": "Description of ",
+        "componentName": "Component_1_2_1"
+      },
+      {
+        "componentId": "2",
+        "description": "Description of ",
+        "componentName": "Component_1_2_2"
+      },
+      {
+        "componentId": "3",
+        "description": "Description of ",
+        "componentName": "Component_1_2_3"
+      }
+    ]
+  },
+  {
+    "OM_Request": {
+      "jobID": "1234",
+      "timestamp": "",
+      "messageType": "Data",
+      "sourceID": "4",
+      "event": {
+        "OntologyRequest": {
+          "operationName": "getskills",
+          "sosId": "1",
+          "deviceId": "2",
+          "componentId": "3"
+        }
+      },
+      "crc": 1234567
+    },
+    "OM_Response": [
+      {
+        "skillName": "Connectivity",
+        "skillId": "1",
+        "description": "Description of "
+      },
+      {
+        "skillName": "Connectivity",
+        "skillId": "2",
+        "description": "Description of "
+      },
+      {
+        "skillName": "Sequence Execution",
+        "skillId": "3",
+        "description": "Description of "
+      }
+    ]
+  },
+  {
+    "OM_Request": {
+      "jobID": "1234",
+      "timestamp": "",
+      "messageType": "Data",
+      "sourceID": "4",
+      "event": {
+        "OntologyRequest": {
+          "operationName": "getrules",
+          "sosId": "1",
+          "deviceId": "2",
+          "componentId": "3",
+          "skillId": "1"
+        }
+      },
+      "crc": 1234567
+    },
+    "OM_Response": [
+      {
+        "paramters": [
+          {
+            "#maximum_number": "",
+            "#PROBE_ID": ""
+          }
+        ],
+        "ruleType": "Standard",
+        "ruleName": "Maximum number of established simultaneous connections",
+        "description": "This is a Standard Rule that allows monitoring the Maximum Number of of established simultaneous connections a Component should have.",
+        "ruleId": "1"
+      },
+      {
+        "paramters": [
+          {
+            "#PROBE_ID": "",
+            "#minimum_number": ""
+          }
+        ],
+        "ruleType": "Standard",
+        "ruleName": "Minimum number of established simultaneous connections",
+        "description": "This is a Standard Rule that allows monitoring the Minimum Number of of established simultaneous connections a Component should have.",
+        "ruleId": "2"
+      }
+    ]
+  }
+
+
+]
+
+
+

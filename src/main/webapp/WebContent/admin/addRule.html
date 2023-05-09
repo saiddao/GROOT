@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>New Rule Entry</title>
+	<style>
+		form {
+			margin: 20px auto;
+			padding: 20px;
+			width: 400px;
+			border: 1px solid #ccc;
+			border-radius: 10px;
+			background-color: #f2f2f2;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+		}
+
+		label {
+			display: block;
+			margin-bottom: 5px;
+		}
+
+		input[type="text"],
+		textarea {
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-bottom: 10px;
+		}
+
+		select {
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-bottom: 10px;
+		}
+
+		#parameterFields label {
+			display: inline-block;
+			width: 150px;
+			margin-bottom: 5px;
+			text-align: right;
+			margin-right: 10px;
+		}
+
+		#parameterFields input[type="text"] {
+			width: calc(100% - 160px);
+			margin-bottom: 10px;
+		}
+
+		#parameterFields div {
+			margin-bottom: 10px;
+		}
+
+		#submitButton {
+			display: block;
+			margin: 20px auto;
+			padding: 10px 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			font-size: 16px;
+			cursor: pointer;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+		}
+
+		#addParameterButton {
+			display: block;
+			margin: 10px 0;
+			padding: 10px 20px;
+			background-color: #ccc;
+			color: black;
+			border: none;
+			border-radius: 5px;
+			font-size: 16px;
+			cursor: pointer;
+			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+		}
+
+		#addParameterButton:hover {
+			background-color: #ddd;
+		}
+	</style>
+
+
+
+
+
+</head>
+<body>
+	<form id="ruleForm" name="ruleForm">
+		<label for="ruleName">Rule Name:</label>
+		<input type="text" id="ruleName" name="ruleName"><br>
+	
+	php
+	
+	<label for="description">Description:</label>
+	<textarea id="description" name="description"></textarea><br>
+	
+	<label for="ruleId">Rule ID:</label>
+	<input type="text" id="ruleId" name="ruleId"><br>
+	
+	<label for="ruleType">Rule Type:</label>
+	<select id="ruleType" name="ruleType">
+		<option value="Standard">Standard</option>
+		<option value="Pure Predictive">Pure Predictive</option>
+	</select><br>
+	
+	<label for="abstractrule">Abstract Rule:</label>
+	<input type="text" id="abstractrule" name="abstractrule"><br>
+	
+	<label for="welldefined">Well-Defined Parameters:</label>
+	<input type="text" id="welldefined" name="welldefined"><br>
+	
+	<div id="parameterFields">
+		<label for="parname">Parameter Name:</label>
+		<label for="parvalue">Parameter Value:</label><br>
+		<input type="text" name="parname[]" style="display:inline-block;width:45%;">
+		<input type="text" name="parvalue[]" style="display:inline-block;width:45%;"><br>
+	</div>
+
+	<button type="button" onclick="addParameterField()">Add Parameter</button><br>
+	
+	<input type="submit" id="submitBtn" name="submitBtn" value="Submit">
+	
+	</form>
+
+
+
+	<script type="text/javascript">
+		const form = document.querySelector('#ruleForm');
+		form.addEventListener('submit', function(event) {
+			event.preventDefault(); // prevent the form from actually submitting
+	
+			// Get the form values
+			const ruleName = document.getElementById('ruleName').value;
+			const description = document.getElementById('description').value;
+			const ruleId = document.getElementById('ruleId').value;
+			const ruleType = document.getElementById('ruleType').value;
+			const abstractrule = document.getElementById('abstractrule').value;
+			const welldefined = document.getElementById('welldefined').value;
+			const parameterNames = document.getElementsByName('parname[]');
+			const parameterValues = document.getElementsByName('parvalue[]');
+	
+			// Create an object to hold the form values
+			const formData = {
+				ruleName: ruleName,
+				description: description,
+				ruleId: ruleId,
+				ruleType: ruleType,
+				abstractrule: abstractrule,
+				welldefined: welldefined,
+				parameters: []
+			};
+	
+			// Loop through the parameter fields and add them to the formData object
+			for (let i = 0; i < parameterNames.length; i++) {
+				formData.parameters.push({
+					name: parameterNames[i].value,
+					value: parameterValues[i].value
+				});
+			}
+	
+			// Log the form data to the console (replace with your own visualization logic)
+			console.log(formData);
+
+			addnewRule(formData);
+		});
+		
+		function addParameterFieldOLD() {
+			const parameterFields = document.getElementById('parameterFields');
+			const newField = document.createElement('div');
+			newField.innerHTML = `
+				<label for="parname">Parameter Name:</label>
+				<input type="text" name="parname[]">
+				<label for="parvalue">Parameter Value:</label>
+				<input type="text" name="parvalue[]"><br>
+			`;
+			parameterFields.appendChild(newField);
+		}
+
+		function addParameterField() {
+			var newField = document.createElement("div");
+			newField.innerHTML = `
+			<label for="parname">Parameter Name:</label>
+			<label for="parvalue">Parameter Value:</label><br>
+			<input type="text" name="parname[]" style="display:inline-block;width:45%;">
+			<input type="text" name="parvalue[]" style="display:inline-block;width:45%;"><br>
+		`;
+			document.getElementById("parameterFields").appendChild(newField);
+		}
+
+
+		function addnewRule(content){
+
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', 'http://localhost:8282/ontologymanager/biecointerface/', true);
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.setRequestHeader('Authorization', 'qJACs1J0apruOOJCg');
+			xhr.onload = function () {
+				if (xhr.status === 200) {
+					console.log('Data sent successfully!');
+				} else {
+					console.log('Error sending data: ' + xhr.status);
+				}
+			};
+	
+			const data = {
+				jobID: '1234',
+				timestamp: new Date().toISOString(),
+				messageType: 'Data',
+				sourceID: '4',
+				event: {
+					OntologyRequest: {
+						operationName: 'addnewrule',
+						ontologyContent: content
+					}
+				},
+				crc: 1234567
+			};
+			xhr.send(JSON.stringify(data)); // send form data as JSON string
+
+		}
+
+	</script>
+
+
+</body>
+</html>

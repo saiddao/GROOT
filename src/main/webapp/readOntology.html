@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Read File Example</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+	<input type="file" id="file-input">
+	<pre id="file-content"></pre>
+
+	<script>
+		const fileInput = document.getElementById('file-input');
+		const fileContent = document.getElementById('file-content');
+
+		fileInput.addEventListener('change', (event) => {
+			const file = event.target.files[0];
+			const reader = new FileReader();
+			reader.onload = (event) => {
+				fileContent.textContent = event.target.result;
+			};
+			reader.readAsText(file);
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Access Control Page</title>
+    <style>
+      /* Style the tab */
+      .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+      }
+      
+      /* Style the buttons that are used to open the tab content */
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+      }
+      
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #ddd;
+      }
+      
+      /* Create an active/current tablink class */
+      .tab button.active {
+        background-color: #ccc;
+      }
+      
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+      }
+    </style>
+
+
+<script>
+  function readXmlFile(input) {
+      let file = input.files[0];
+      let reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = function() {
+          let xmlContent = reader.result;
+          let xmlTextarea = document.getElementById("xmlTextarea");
+          xmlTextarea.value = prettifyXml(xmlContent);
+      }
+  }
+  
+  function prettifyXml(xml) {
+      let elementTree = new DOMParser().parseFromString(xml, "application/xml");
+      let indent = "    ";
+      let level = 0;
+      
+      function processNode(node) {
+          let indentText = new Array(level + 1).join(indent);
+          let text = indentText + node.nodeName;
+          
+          if (node.nodeType === Node.ELEMENT_NODE) {
+              let attributes = node.attributes;
+              let hasAttributes = attributes && attributes.length > 0;
+              if (hasAttributes) {
+                  for (let i = 0; i < attributes.length; i++) {
+                      let attribute = attributes.item(i);
+                      text += " " + attribute.nodeName + '="' + attribute.nodeValue + '"';
+                  }
+              }
+          }
+          
+          let childNodes = node.childNodes;
+          let hasChildNodes = childNodes && childNodes.length > 0;
+          
+          if (hasChildNodes) {
+              level++;
+              for (let i = 0; i < childNodes.length; i++) {
+                  let childNode = childNodes.item(i);
+                  text += "\n" + processNode(childNode);
+              }
+              level--;
+              text += "\n" + indentText;
+          } else {
+              let textContent = node.textContent.trim();
+              if (textContent) {
+                  text += indent + textContent + "\n" + indentText;
+              }
+          }
+          
+          return text;
+      }
+      
+      return processNode(elementTree.documentElement);
+  }
+</script>
+
+  </head>
+  <body>
+    <h1>Access Control Page</h1>
+    
+    <!-- Tab links -->
+    <div class="tab">
+      <button class="tablinks" onclick="openTab(event, 'LoadPolicy')">Load AC Policy</button>
+      <button class="tablinks" onclick="openTab(event, 'GenerateRequests')">Generate AC Requests</button>
+      <button class="tablinks" onclick="openTab(event, 'Oracle')">Oracle</button>
+      <button class="tablinks" onclick="openTab(event, 'EvaluateRequests')">Evaluate AC Requests</button>
+    </div>
+    
+    <!-- Tab content -->
+    <div id="LoadPolicy" class="tabcontent">
+      <h2>Load AC Policy</h2>
+      <p>This tab will allow you to load an access control policy.</p>
+
+
+
+      
+
+      <input type="file" onchange="readXmlFile(this)">
+      <br><br>
+      <textarea id="xmlTextarea" rows="20" cols="180"></textarea>
+
+
+
+
+
+      <div class="container">
+				<form id="form" action="http://localhost:8282/ontologymanager/biecointerface/" method="post">
+					
+          <div class="form-control">
+						<label for="file-input">Select a file:</label>
+						<input type="file" id="file-input" name="file">
+					</div>
+          <button type="submit" class="btn">Submit</button>
+					<div class="form-control">
+						<label>File content:</label>
+						<pre id="file-content"></pre>
+					</div>
+					
+				</form>
+			</div>
+
+
+			<script>
+				const form = document.getElementById('form');
+				const fileInput = document.getElementById('file-input');
+				const fileContent = document.getElementById('file-content');
+
+				fileInput.addEventListener('change', (event) => {
+					const file = event.target.files[0];
+					const reader = new FileReader();
+					reader.onload = (event) => {
+						fileContent.textContent = event.target.result;
+					};
+					reader.readAsText(file);
+				});
+
+				form.addEventListener('submit', (event) => {
+					event.preventDefault();
+					const file = fileInput.files[0];
+					const reader = new FileReader();
+					reader.onload = (event) => {
+						const content = event.target.result;
+						fileContent.textContent = content;
+						const xhr = new XMLHttpRequest();
+						xhr.open('POST', 'http://localhost:8283/groot/biecointerface/', true);
+						xhr.setRequestHeader('Content-Type', 'application/json');
+						xhr.setRequestHeader('Authorization', 'qJACs1J0apruOOJCgGROOT');
+						xhr.onload = function () {
+							if (xhr.status === 200) {
+								status.textContent = 'Upload successful!';
+							} else {
+								status.textContent = 'Upload failed: ' + xhr.status;
+							}
+						};
+						const data = {
+							jobID: '1234',
+							timestamp: '',
+							messageType: 'Data',
+							sourceID: '4',
+							event: {
+								OntologyRequest: {
+									operationName: 'generaterequests',
+									ontologyContent: content
+								}
+							},
+							crc: 1234567
+						};
+						xhr.send(JSON.stringify(data));
+					};
+					reader.readAsText(file);
+				});
+			</script>
+
+
+
+
+    </div>
+    
+    <div id="GenerateRequests" class="tabcontent">
+      <h2>Generate AC Requests</h2>
+      <p>This tab will allow you to generate access control requests.</p>
+    </div>
+    
+    <div id="Oracle" class="tabcontent">
+      <h2>Oracle</h2>
+      <p>This tab will allow you to interact with an access control oracle.</p>
+    </div>
+    
+    <div id="EvaluateRequests" class="tabcontent">
+      <h2>Evaluate AC Requests</h2>
+      <p>This tab will allow you to evaluate access control requests.</p>
+    </div>
+    
+    <script>
+      // Function to open the selected tab
+      function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+    </script>
+  </body>
+</html>
+
+
+
+
+
+I need to create an HTML page providing the follosing faunctionalities:
+- Load AC Policy: this allow loading a file from localdrive and show the content into a text area.
+- Generate REquest: it takes as input the load file (it content) and generate several access control request. It shows table with four columns: ID, Request, Oracle and Actual Response.
+- Oracle Generation: for each of the generated requests this operation evaluate the expected response and report it into "Oracle" column
+- Evaluate Requests: for each of the generated requests this operation evaluate the actual response and report it into "Actuale Response" column
+
