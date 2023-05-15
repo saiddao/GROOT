@@ -82,7 +82,7 @@ public class Groot {
 				+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
 				+ "    <title>Form</title>" + "</head>" + "<body>");
 
-		resultHTML.append("<form action=\"http://localhost:8282/ontologymanager/biecointerface/getComponentsHTML\">"
+		resultHTML.append("<form action=\"http://localhost:8283/ontologymanager/biecointerface/getComponentsHTML\">"
 				+ "  <label for=\"soss\">Choose SoS:</label>" + "  <select name=\"soss\" id=\"soss\">");
 
 		for (SoS soS : soss) {
@@ -94,7 +94,7 @@ public class Groot {
 				"</select>" + "  <br><br>" + "<input type=\"getcomponents\" value=\"GetComponents\">" + "</form>");
 
 		resultHTML.append(
-				"    <form action=\"http://localhost:8282/ontologymanager/biecointerface/getsossHTML\" method=\"SET\">"
+				"    <form action=\"http://localhost:8283/ontologymanager/biecointerface/getsossHTML\" method=\"SET\">"
 						+ "        <button>Get SoSs</button>" + "    </form>" + "</body>" + "</html>");
 
 		return resultHTML.toString();
@@ -948,7 +948,7 @@ public class Groot {
 					+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
 					+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
 					+ "    <title>Ontology Manager Administrator</title>" + "</head>" + "<body>"
-					+ "    <form action=\"http://localhost:8282/ontologymanager/biecointerface/getsossHTML\" method=\"SET\">"
+					+ "    <form action=\"http://localhost:8283/ontologymanager/biecointerface/getsossHTML\" method=\"SET\">"
 					+ "        <button>Get SoSs</button>" + "    </form>" + "</body>" + "</html>";
 
 			return result;
@@ -967,7 +967,7 @@ public class Groot {
 				+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
 				+ "    <title>Form</title>" + "</head>" + "<body>");
 
-		resultHTML.append("<form action=\"http://localhost:8282/ontologymanager/biecointerface/getComponentsHTML\">"
+		resultHTML.append("<form action=\"http://localhost:8283/ontologymanager/biecointerface/getComponentsHTML\">"
 				+ "  <label for=\"soss\">Choose SoS:</label>" + "  <select name=\"soss\" id=\"soss\">");
 
 		for (SoS soS : soss) {
@@ -979,7 +979,7 @@ public class Groot {
 				"</select>" + "  <br><br>" + "<input type=\"getcomponents\" value=\"GetComponents\">" + "</form>");
 
 		resultHTML.append(
-				"    <form action=\"http://localhost:8282/ontologymanager/biecointerface/getsossHTML\" method=\"SET\">"
+				"    <form action=\"http://localhost:8283/ontologymanager/biecointerface/getsossHTML\" method=\"SET\">"
 						+ "        <button>Get SoSs</button>" + "    </form>" + "</body>" + "</html>");
 
 		String currentDir = System.getProperty("user.dir");
