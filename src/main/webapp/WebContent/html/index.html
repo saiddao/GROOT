@@ -1,46 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>SoS Selector</title>
+	<title>GROOT  (CNR)</title>
+	<link rel="stylesheet" type="text/css" href="adminStyleUsable.css">
+	
+	<style>
+		  body { text-align: center; padding: 20px; font: 20px Helvetica, sans-serif; color: #ae6e6e; }
+		  @media (min-width: 768px){
+			body{ padding-top: 150px; }
+		  }
+		  h1 { font-size: 50px; }
+		  article { display: block; text-align: left; max-width: 650px; margin: 0 auto; }
+		  a { color: #d18d2e; text-decoration: none; }
+		  a:hover { color: #972d2d; text-decoration: none; }
+		</style>
 </head>
+
 <body>
-	<h1>Select a System of Systems said</h1>
-	<select id="sos-selector">
-	</select>
+	<header>
+		<h1>GROOT :: GdpR-based cOmbinatOrial Testing</h1>
+	</header>
 
-	<script>
-		// Get the select element
-		const selectEl = document.getElementById('sos-selector');
 
-		// Make an HTTP request to the server to get the JSON data
-		fetch('http://localhost:8283/ontologymanager/biecointerface/', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-                'Authorization': 'qJACs1J0apruOOJCg'
-			},
-			body: JSON.stringify({
-			    "jobID": "1234",
-			    "timestamp":"",
-			    "messageType": "Data",
-			    "sourceID":"4",
-			    "event": { "OntologyRequest" :{ 
-			    	"operationName": "getsoss"}
-			    },
-			    "crc":1234567
-			})
-		})
-			.then(response => response.json())
-			.then(data => {
-				// Add options to the select element
-				data.forEach(sos => {
-					const optionEl = document.createElement('option');
-					optionEl.value = sos.sosId;
-					optionEl.text = sos.sosName;
-					selectEl.appendChild(optionEl);
-				});
-			})
-			.catch(error => console.error(error));
-	</script>
-</body>
+		<article>
+			<h1>We will be back soon!</h1>
+			<div>
+				<p>Sorry for the inconvenience but we are performing some maintenance at the moment. We will be back online shortly!</p>
+				<p>&mdash; The GROOT Team</p>
+			</div>
+		</article>
+	  </body>
+
 </html>
