@@ -46,8 +46,8 @@ public class Device {
 	public void parse() {
 		// TODO Auto-generated method stub
 		
-		this.deviceName = (String) this.deviceJsonObject.get(OntologyEntitiesNames.DEVICE_NAME); 
-		this.deviceId = (String) this.deviceJsonObject.get(OntologyEntitiesNames.DEVICE_ID);
+		this.deviceName = (String) this.deviceJsonObject.get(GrootEntitiesNames.DEVICE_NAME); 
+		this.deviceId = (String) this.deviceJsonObject.get(GrootEntitiesNames.DEVICE_ID);
 				
 	}
 	
@@ -56,9 +56,9 @@ public class Device {
 	public JSONObject toJson() {
 		JSONObject result = new JSONObject();
 		
-		result.put(OntologyEntitiesNames.DEVICE_NAME, this.deviceName);
-		result.put(OntologyEntitiesNames.DEVICE_ID, this.deviceId);
-		result.put(OntologyEntitiesNames.DESCRIPTION, this.description);
+		result.put(GrootEntitiesNames.DEVICE_NAME, this.deviceName);
+		result.put(GrootEntitiesNames.DEVICE_ID, this.deviceId);
+		result.put(GrootEntitiesNames.DESCRIPTION, this.description);
 		
 		return result;
 	}
@@ -81,7 +81,7 @@ public class Device {
 	}
 	
 	public static Device fromJSON(JSONObject object) {
-		return new Device((String) object.get(OntologyEntitiesNames.DEVICE_NAME), (String) object.get(OntologyEntitiesNames.DEVICE_ID), (String) object.get(OntologyEntitiesNames.DESCRIPTION));			
+		return new Device((String) object.get(GrootEntitiesNames.DEVICE_NAME), (String) object.get(GrootEntitiesNames.DEVICE_ID), (String) object.get(GrootEntitiesNames.DESCRIPTION));			
 	}
 	
 	@Override

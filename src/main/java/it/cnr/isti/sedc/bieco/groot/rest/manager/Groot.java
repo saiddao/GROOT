@@ -28,7 +28,7 @@ import org.json.simple.parser.ParseException;
 import it.cnr.isti.sedc.bieco.groot.Component;
 import it.cnr.isti.sedc.bieco.groot.CoreGroot;
 import it.cnr.isti.sedc.bieco.groot.Device;
-import it.cnr.isti.sedc.bieco.groot.OntologyEntitiesNames;
+import it.cnr.isti.sedc.bieco.groot.GrootEntitiesNames;
 import it.cnr.isti.sedc.bieco.groot.Rule;
 import it.cnr.isti.sedc.bieco.groot.Skill;
 import it.cnr.isti.sedc.bieco.groot.SoS;
@@ -293,7 +293,7 @@ public class Groot {
 	@GET
 	@Path("/getdevices")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Device> getDevices(@DefaultValue("") @QueryParam(OntologyEntitiesNames.SOS_ID) String sosID) {
+	public List<Device> getDevices(@DefaultValue("") @QueryParam(GrootEntitiesNames.SOS_ID) String sosID) {
 		List<Device> devices = this.loadOntDatabaseDevices(sosID);
 		return devices;
 	}
@@ -314,7 +314,7 @@ public class Groot {
 				 */
 
 				if (currentSoS.getSosId().equals(sosID)) {
-					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(OntologyEntitiesNames.DEVICES);
+					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(GrootEntitiesNames.DEVICES);
 					if (devicesJson == null) {
 						return devices;
 					}
@@ -344,8 +344,8 @@ public class Groot {
 	@GET
 	@Path("/getcomponents")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Component> getComponents(@DefaultValue("") @QueryParam(OntologyEntitiesNames.SOS_ID) String sosID,
-			@QueryParam(OntologyEntitiesNames.DEVICE_ID) String deviceID) {
+	public List<Component> getComponents(@DefaultValue("") @QueryParam(GrootEntitiesNames.SOS_ID) String sosID,
+			@QueryParam(GrootEntitiesNames.DEVICE_ID) String deviceID) {
 
 		List<Component> components = new ArrayList<Component>();
 		JSONParser parser = new JSONParser();
@@ -357,7 +357,7 @@ public class Groot {
 				SoS currentSoS = SoS.fromJSON((JSONObject) joSoS);
 				// if the current SoS is the one we search
 				if (currentSoS.getSosId().equals(sosID)) {
-					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(OntologyEntitiesNames.DEVICES);
+					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(GrootEntitiesNames.DEVICES);
 					if (devicesJson != null) {
 						System.out.println(devicesJson.toJSONString());
 						// for each Device associated with the SoS
@@ -366,7 +366,7 @@ public class Groot {
 							// if current device is the one we search
 							if (currentDevice.getDeviceId().equals(deviceID)) {
 								JSONArray componentsJson = (JSONArray) ((JSONObject) deviceObject)
-										.get(OntologyEntitiesNames.COMPONENTS);
+										.get(GrootEntitiesNames.COMPONENTS);
 								if (componentsJson != null) {
 									System.out.println(componentsJson.toJSONString());
 									// for each Device associated with the SoS
@@ -394,9 +394,9 @@ public class Groot {
 	@GET
 	@Path("/getskills")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Skill> getSkills(@DefaultValue("") @QueryParam(OntologyEntitiesNames.SOS_ID) String sosID,
-			@QueryParam(OntologyEntitiesNames.DEVICE_ID) String deviceID,
-			@QueryParam(OntologyEntitiesNames.COMPONENT_ID) String componentID) {
+	public List<Skill> getSkills(@DefaultValue("") @QueryParam(GrootEntitiesNames.SOS_ID) String sosID,
+			@QueryParam(GrootEntitiesNames.DEVICE_ID) String deviceID,
+			@QueryParam(GrootEntitiesNames.COMPONENT_ID) String componentID) {
 
 		List<Skill> skills = new ArrayList<Skill>();
 		JSONParser parser = new JSONParser();
@@ -409,7 +409,7 @@ public class Groot {
 				// if the currentSoS is the one we search
 
 				if (currentSoS.getSosId().equals(sosID)) {
-					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(OntologyEntitiesNames.DEVICES);
+					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(GrootEntitiesNames.DEVICES);
 					if (devicesJson != null) {
 						System.out.println(devicesJson.toJSONString());
 						// for each Device associated with the SoS
@@ -418,7 +418,7 @@ public class Groot {
 							// if current device is the one we search
 							if (currentDevice.getDeviceId().equals(deviceID)) {
 								JSONArray componentsJson = (JSONArray) ((JSONObject) deviceObject)
-										.get(OntologyEntitiesNames.COMPONENTS);
+										.get(GrootEntitiesNames.COMPONENTS);
 								if (componentsJson != null) {
 									System.out.println(componentsJson.toJSONString()); // for each Device associated
 																						// with the SoS
@@ -427,7 +427,7 @@ public class Groot {
 										// retrieve component with id "componentID"
 										if (currentComponent.getComponentId().equals(componentID)) {
 											JSONArray skillsJson = (JSONArray) ((JSONObject) componentObject)
-													.get(OntologyEntitiesNames.SKILLS);
+													.get(GrootEntitiesNames.SKILLS);
 
 											if (skillsJson != null) {
 												System.out.println(skillsJson.toJSONString());
@@ -470,10 +470,10 @@ public class Groot {
 	@GET
 	@Path("/getrules")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Rule> getRules(@DefaultValue("") @QueryParam(OntologyEntitiesNames.SOS_ID) String sosID,
-			@QueryParam(OntologyEntitiesNames.DEVICE_ID) String deviceID,
-			@QueryParam(OntologyEntitiesNames.COMPONENT_ID) String componentID,
-			@QueryParam(OntologyEntitiesNames.SKILL_ID) String skillID) {
+	public List<Rule> getRules(@DefaultValue("") @QueryParam(GrootEntitiesNames.SOS_ID) String sosID,
+			@QueryParam(GrootEntitiesNames.DEVICE_ID) String deviceID,
+			@QueryParam(GrootEntitiesNames.COMPONENT_ID) String componentID,
+			@QueryParam(GrootEntitiesNames.SKILL_ID) String skillID) {
 
 		List<Rule> rules = new ArrayList<Rule>();
 
@@ -487,7 +487,7 @@ public class Groot {
 				// if the currentSoS is the one we search
 
 				if (currentSoS.getSosId().equals(sosID)) {
-					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(OntologyEntitiesNames.DEVICES);
+					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(GrootEntitiesNames.DEVICES);
 					if (devicesJson != null) {
 						System.out.println(devicesJson.toJSONString());
 						// for each Device associated with the SoS
@@ -496,7 +496,7 @@ public class Groot {
 							// if current device is the one we search
 							if (currentDevice.getDeviceId().equals(deviceID)) {
 								JSONArray componentsJson = (JSONArray) ((JSONObject) deviceObject)
-										.get(OntologyEntitiesNames.COMPONENTS);
+										.get(GrootEntitiesNames.COMPONENTS);
 								if (componentsJson != null) {
 									System.out.println(componentsJson.toJSONString());
 									// for each Device associated with the SoS
@@ -505,7 +505,7 @@ public class Groot {
 										// retrieve the component with id "componentID"
 										if (currentComponent.getComponentId().equals(componentID)) {
 											JSONArray skillsJson = (JSONArray) ((JSONObject) componentObject)
-													.get(OntologyEntitiesNames.SKILLS);
+													.get(GrootEntitiesNames.SKILLS);
 
 											if (skillsJson != null) {
 												System.out.println(skillsJson.toJSONString());
@@ -516,7 +516,7 @@ public class Groot {
 													// retreive the Skill with ID "skillID"
 													if (currentSkill.getSkillId().equals(skillID)) {
 														JSONArray rulesJson = (JSONArray) ((JSONObject) skillObject)
-																.get(OntologyEntitiesNames.RULES);
+																.get(GrootEntitiesNames.RULES);
 
 														System.err.println(rulesJson.toJSONString());
 
@@ -567,10 +567,10 @@ public class Groot {
 	@GET
 	@Path("/getabstractrules")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Object getAbstractRules(@DefaultValue("") @QueryParam(OntologyEntitiesNames.SOS_ID) String sosID,
-			@QueryParam(OntologyEntitiesNames.DEVICE_ID) String deviceID,
-			@QueryParam(OntologyEntitiesNames.COMPONENT_ID) String componentID,
-			@QueryParam(OntologyEntitiesNames.SKILL_IDS) String skillIDsAsString) {
+	public Object getAbstractRules(@DefaultValue("") @QueryParam(GrootEntitiesNames.SOS_ID) String sosID,
+			@QueryParam(GrootEntitiesNames.DEVICE_ID) String deviceID,
+			@QueryParam(GrootEntitiesNames.COMPONENT_ID) String componentID,
+			@QueryParam(GrootEntitiesNames.SKILL_IDS) String skillIDsAsString) {
 
 		// (
 		// String sosID,
@@ -618,7 +618,7 @@ public class Groot {
 				// if the currentSoS is the one we search
 
 				if (currentSoS.getSosId().equals(sosID)) {
-					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(OntologyEntitiesNames.DEVICES);
+					JSONArray devicesJson = (JSONArray) ((JSONObject) joSoS).get(GrootEntitiesNames.DEVICES);
 					if (devicesJson != null) {
 						System.out.println(devicesJson.toJSONString());
 						// for each Device associated with the SoS
@@ -627,7 +627,7 @@ public class Groot {
 							// if current device is the one we search
 							if (currentDevice.getDeviceId().equals(deviceID)) {
 								JSONArray componentsJson = (JSONArray) ((JSONObject) deviceObject)
-										.get(OntologyEntitiesNames.COMPONENTS);
+										.get(GrootEntitiesNames.COMPONENTS);
 								if (componentsJson != null) {
 									System.out.println(componentsJson.toJSONString());
 									// for each Device associated with the SoS
@@ -636,7 +636,7 @@ public class Groot {
 										// retrieve the component with id "componentID"
 										if (currentComponent.getComponentId().equals(componentID)) {
 											JSONArray skillsJson = (JSONArray) ((JSONObject) componentObject)
-													.get(OntologyEntitiesNames.SKILLS);
+													.get(GrootEntitiesNames.SKILLS);
 
 											if (skillsJson != null) {
 												System.out.println(skillsJson.toJSONString());
@@ -650,7 +650,7 @@ public class Groot {
 
 //												if(currentSkill.getSkillId().equals(skillID)) {
 														JSONArray rulesJson = (JSONArray) ((JSONObject) skillObject)
-																.get(OntologyEntitiesNames.RULES);
+																.get(GrootEntitiesNames.RULES);
 
 														System.err.println(rulesJson.toJSONString());
 
@@ -769,10 +769,10 @@ public class Groot {
 	}
 
 	/**
-	 * OntologyRequest is a JSON Object containing { "operationName": "_",
-	 * "idOntResource" : "45" }
+	 * GrootRequest is a JSON Object containing 
+	 * { "operationName": "_"}
 	 * 
-	 * We have defined Four operation: 1) getsoss 2) getdevices 3) getcomponents 4)
+	 * We have defined Four operation: 1) createACRequests 2) evaluateACRequest 3) getcomponents 4)
 	 * getskills
 	 * 
 	 * 
@@ -785,11 +785,11 @@ public class Groot {
 
 		System.out.println(event.toJSONString());
 
-		JSONObject ontologyRequest = (JSONObject) event.get(OntologyEntitiesNames.ONTOLOGY_REQUEST);
+		JSONObject ontologyRequest = (JSONObject) event.get(GrootEntitiesNames.GROOT_REQUEST);
 
 		System.out.println(ontologyRequest.toJSONString());
 
-		String operationName = (String) ontologyRequest.get(OntologyEntitiesNames.OPERATION_NAME);
+		String operationName = (String) ontologyRequest.get(GrootEntitiesNames.OPERATION_NAME);
 		System.out.println(operationName);
 
 		String result;
@@ -799,6 +799,28 @@ public class Groot {
 		String skillID;
 
 		switch (operationName) {
+		
+		
+		case "createACRequests":
+			
+			String acpolicyContent = (String) ontologyRequest.get(GrootEntitiesNames.ACCESS_CONTROL_POLICY_CONTENT);
+			
+			System.out.println(acpolicyContent);
+			
+			result = createACRequests().toString();
+			System.out.println(result);
+			output = Response.status(200).entity(result).build();
+			
+			break;
+		
+		case "evaluateACRequest":
+			
+			result = evaluateACRequest().toString();
+			System.out.println(result);
+			output = Response.status(200).entity(result).build();
+			
+			break;
+		
 		case "getsoss":
 
 			result = getSOSs().toString();
@@ -807,7 +829,7 @@ public class Groot {
 
 			break;
 		case "getdevices":
-			sosID = (String) ontologyRequest.get(OntologyEntitiesNames.SOS_ID);
+			sosID = (String) ontologyRequest.get(GrootEntitiesNames.SOS_ID);
 			System.out.println(sosID);
 
 			result = getDevices(sosID).toString();
@@ -815,10 +837,10 @@ public class Groot {
 			break;
 		case "getcomponents":
 
-			sosID = (String) ontologyRequest.get(OntologyEntitiesNames.SOS_ID);
+			sosID = (String) ontologyRequest.get(GrootEntitiesNames.SOS_ID);
 			System.out.println(sosID);
 
-			deviceID = (String) ontologyRequest.get(OntologyEntitiesNames.DEVICE_ID);
+			deviceID = (String) ontologyRequest.get(GrootEntitiesNames.DEVICE_ID);
 			System.out.println(deviceID);
 
 			result = getComponents(sosID, deviceID).toString();
@@ -827,13 +849,13 @@ public class Groot {
 			break;
 		case "getskills":
 
-			sosID = (String) ontologyRequest.get(OntologyEntitiesNames.SOS_ID);
+			sosID = (String) ontologyRequest.get(GrootEntitiesNames.SOS_ID);
 			System.out.println(sosID);
 
-			deviceID = (String) ontologyRequest.get(OntologyEntitiesNames.DEVICE_ID);
+			deviceID = (String) ontologyRequest.get(GrootEntitiesNames.DEVICE_ID);
 			System.out.println(deviceID);
 
-			componentID = (String) ontologyRequest.get(OntologyEntitiesNames.COMPONENT_ID);
+			componentID = (String) ontologyRequest.get(GrootEntitiesNames.COMPONENT_ID);
 			System.out.println(componentID);
 
 			result = getSkills(sosID, deviceID, componentID).toString();
@@ -843,16 +865,16 @@ public class Groot {
 
 		case "getrules":
 
-			sosID = (String) ontologyRequest.get(OntologyEntitiesNames.SOS_ID);
+			sosID = (String) ontologyRequest.get(GrootEntitiesNames.SOS_ID);
 			System.out.println(sosID);
 
-			deviceID = (String) ontologyRequest.get(OntologyEntitiesNames.DEVICE_ID);
+			deviceID = (String) ontologyRequest.get(GrootEntitiesNames.DEVICE_ID);
 			System.out.println(deviceID);
 
-			componentID = (String) ontologyRequest.get(OntologyEntitiesNames.COMPONENT_ID);
+			componentID = (String) ontologyRequest.get(GrootEntitiesNames.COMPONENT_ID);
 			System.out.println(componentID);
 
-			skillID = (String) ontologyRequest.get(OntologyEntitiesNames.SKILL_ID);
+			skillID = (String) ontologyRequest.get(GrootEntitiesNames.SKILL_ID);
 			System.out.println(skillID);
 
 			result = getRules(sosID, deviceID, componentID, skillID).toString();
@@ -863,16 +885,16 @@ public class Groot {
 
 		case "getabstractrules":
 
-			sosID = (String) ontologyRequest.get(OntologyEntitiesNames.SOS_ID);
+			sosID = (String) ontologyRequest.get(GrootEntitiesNames.SOS_ID);
 			System.out.println(sosID);
 
-			deviceID = (String) ontologyRequest.get(OntologyEntitiesNames.DEVICE_ID);
+			deviceID = (String) ontologyRequest.get(GrootEntitiesNames.DEVICE_ID);
 			System.out.println(deviceID);
 
-			componentID = (String) ontologyRequest.get(OntologyEntitiesNames.COMPONENT_ID);
+			componentID = (String) ontologyRequest.get(GrootEntitiesNames.COMPONENT_ID);
 			System.out.println(componentID);
 
-			JSONArray skillIDs = (JSONArray) ontologyRequest.get(OntologyEntitiesNames.SKILL_IDS);
+			JSONArray skillIDs = (JSONArray) ontologyRequest.get(GrootEntitiesNames.SKILL_IDS);
 			System.out.println(skillIDs.toJSONString());
 
 //			result = getAbstractRules(sosID, deviceID, componentID, skillIDs).toString();
@@ -886,7 +908,7 @@ public class Groot {
 
 			try {
 
-				String ontologyContent = (String) ontologyRequest.get(OntologyEntitiesNames.ONTOLOGY_CONTENT);
+				String ontologyContent = (String) ontologyRequest.get(GrootEntitiesNames.ONTOLOGY_CONTENT);
 				System.out.println("Content of the Uploaded Ontology File -> " + ontologyContent);
 
 				System.out.println(
@@ -895,14 +917,14 @@ public class Groot {
 				JSONParser parser = new JSONParser();
 				JSONObject content = (JSONObject) parser.parse(ontologyContent);
 
-				JSONArray sossArray = (JSONArray) content.get(OntologyEntitiesNames.ONTOLOGY_SOSS);
+				JSONArray sossArray = (JSONArray) content.get(GrootEntitiesNames.ONTOLOGY_SOSS);
 
 				if (sossArray == null) {
 					System.err.println("PLEASE see this:: SoSs Array is null" + sossArray);
 					;
 				}
 
-				System.out.println(content.get(OntologyEntitiesNames.ONTOLOGY_SOSS).toString());
+				System.out.println(content.get(GrootEntitiesNames.ONTOLOGY_SOSS).toString());
 
 				System.out.println(sossArray.toJSONString());
 
@@ -923,6 +945,22 @@ public class Groot {
 			output = Response.status(404).entity("Invalid data request: " + ontologyRequest).build();
 		}
 		return output;
+	}
+
+	private String evaluateACRequest() {
+		// TODO Auto-generated method stub
+		return "\"Name\": \"evaluateACRequest\"";
+	}
+
+	private String createACRequests() {
+		// TODO Auto-generated method stub
+		
+		
+		String policyContent = (String) ontologyRequest.get(GrootEntitiesNames.ONTOLOGY_CONTENT);
+		
+		
+		
+		return "\"Name\": \"createACRequests\"";
 	}
 
 	private void dumpOntologyDatabase(JSONArray jsonSos) {

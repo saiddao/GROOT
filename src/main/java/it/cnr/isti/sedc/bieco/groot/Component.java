@@ -38,15 +38,15 @@ public class Component {
 	public JSONObject toJson() {
 		JSONObject result = new JSONObject();
 		
-		result.put(OntologyEntitiesNames.COMPONENT_NAME, this.componentName);
-		result.put(OntologyEntitiesNames.COMPONENT_ID, this.componentId);
-		result.put(OntologyEntitiesNames.DESCRIPTION, this.description);
+		result.put(GrootEntitiesNames.COMPONENT_NAME, this.componentName);
+		result.put(GrootEntitiesNames.COMPONENT_ID, this.componentId);
+		result.put(GrootEntitiesNames.DESCRIPTION, this.description);
 		return result;
 	}
 	
 	
 	public static Component fromJSON(JSONObject object) {
-		return new Component((String) object.get(OntologyEntitiesNames.COMPONENT_NAME), (String) object.get(OntologyEntitiesNames.COMPONENT_ID), (String) object.get(OntologyEntitiesNames.DESCRIPTION));			
+		return new Component((String) object.get(GrootEntitiesNames.COMPONENT_NAME), (String) object.get(GrootEntitiesNames.COMPONENT_ID), (String) object.get(GrootEntitiesNames.DESCRIPTION));			
 	}
 
 	public String getComponentName() {

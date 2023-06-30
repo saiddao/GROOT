@@ -27,8 +27,8 @@ public class DeviceOld {
 		// TODO Auto-generated method stub
 		
 		
-		this.deviceName = (String) this.deviceJsonObject.get(OntologyEntitiesNames.DEVICE_NAME); 
-		this.deviceId = (String) this.deviceJsonObject.get(OntologyEntitiesNames.DEVICE_ID);
+		this.deviceName = (String) this.deviceJsonObject.get(GrootEntitiesNames.DEVICE_NAME); 
+		this.deviceId = (String) this.deviceJsonObject.get(GrootEntitiesNames.DEVICE_ID);
 				
 	}
 	
@@ -37,8 +37,8 @@ public class DeviceOld {
 	public JSONObject toJson() {
 		JSONObject result = new JSONObject();
 		
-		result.put(OntologyEntitiesNames.DEVICE_NAME, this.deviceName);
-		result.put(OntologyEntitiesNames.DEVICE_ID, this.deviceId);
+		result.put(GrootEntitiesNames.DEVICE_NAME, this.deviceName);
+		result.put(GrootEntitiesNames.DEVICE_ID, this.deviceId);
 		return result;
 	}
 	

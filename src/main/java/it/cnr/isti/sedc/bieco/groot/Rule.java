@@ -59,8 +59,8 @@ public class Rule {
 		JSONObject result = new JSONObject();
 		
 		if (!(this.ruleName.equals("")&& this.ruleId.equals(""))) {
-			result.put(OntologyEntitiesNames.RULE_NAME, this.ruleName);
-			result.put(OntologyEntitiesNames.Rule_ID, this.ruleId);
+			result.put(GrootEntitiesNames.RULE_NAME, this.ruleName);
+			result.put(GrootEntitiesNames.Rule_ID, this.ruleId);
 		} else {
 			result = this.ruleJsonObject;
 		}
@@ -113,13 +113,13 @@ public class Rule {
 	private JSONObject toJsonAbstractRule() {
 		// TODO Auto-generated method stub
 		JSONObject result = new JSONObject();
-		result.put(OntologyEntitiesNames.Rule_ID, this.ruleID);
-		result.put(OntologyEntitiesNames.RULE_NAME, this.ruleName);
-		result.put(OntologyEntitiesNames.DESCRIPTION, this.descriptionRule);
-		result.put(OntologyEntitiesNames.RULE_TYPE, this.ruleTYPE);
-		result.put(OntologyEntitiesNames.ABSTRACT_RULE, this.abstractRULE);
-		result.put(OntologyEntitiesNames.WELL_DEFINED_RULE, this.wellDefinedRULE);
-		result.put(OntologyEntitiesNames.SKILL_ID, this.skillId);
+		result.put(GrootEntitiesNames.Rule_ID, this.ruleID);
+		result.put(GrootEntitiesNames.RULE_NAME, this.ruleName);
+		result.put(GrootEntitiesNames.DESCRIPTION, this.descriptionRule);
+		result.put(GrootEntitiesNames.RULE_TYPE, this.ruleTYPE);
+		result.put(GrootEntitiesNames.ABSTRACT_RULE, this.abstractRULE);
+		result.put(GrootEntitiesNames.WELL_DEFINED_RULE, this.wellDefinedRULE);
+		result.put(GrootEntitiesNames.SKILL_ID, this.skillId);
 		
 		System.out.println("Rule.toJsonAbstractRule()");
 		return result;
@@ -141,12 +141,12 @@ public class Rule {
 
 		 */
 		
-		String ruleID = (String) ruleObject.get(OntologyEntitiesNames.Rule_ID);
-		String ruleName = (String) ruleObject.get(OntologyEntitiesNames.RULE_NAME);
-		String descriptionRule = (String) ruleObject.get(OntologyEntitiesNames.DESCRIPTION);
-		String ruleTYPE = (String) ruleObject.get(OntologyEntitiesNames.RULE_TYPE);
-		String abstractRULE = (String) ruleObject.get(OntologyEntitiesNames.ABSTRACT_RULE);
-		String wellDefinedRULE = (String) ruleObject.get(OntologyEntitiesNames.WELL_DEFINED_RULE);
+		String ruleID = (String) ruleObject.get(GrootEntitiesNames.Rule_ID);
+		String ruleName = (String) ruleObject.get(GrootEntitiesNames.RULE_NAME);
+		String descriptionRule = (String) ruleObject.get(GrootEntitiesNames.DESCRIPTION);
+		String ruleTYPE = (String) ruleObject.get(GrootEntitiesNames.RULE_TYPE);
+		String abstractRULE = (String) ruleObject.get(GrootEntitiesNames.ABSTRACT_RULE);
+		String wellDefinedRULE = (String) ruleObject.get(GrootEntitiesNames.WELL_DEFINED_RULE);
 		
 		return new Rule(ruleID, ruleName, ruleTYPE, abstractRULE, wellDefinedRULE, descriptionRule, skillId);
 	}

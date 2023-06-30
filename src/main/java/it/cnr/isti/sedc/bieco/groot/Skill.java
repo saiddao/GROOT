@@ -41,15 +41,15 @@ public class Skill {
 	public JSONObject toJson() {
 		JSONObject result = new JSONObject();
 		
-		result.put(OntologyEntitiesNames.SKILL_NAME, this.skillName);
-		result.put(OntologyEntitiesNames.SKILL_ID, this.skillId);
-		result.put(OntologyEntitiesNames.DESCRIPTION, this.description);
+		result.put(GrootEntitiesNames.SKILL_NAME, this.skillName);
+		result.put(GrootEntitiesNames.SKILL_ID, this.skillId);
+		result.put(GrootEntitiesNames.DESCRIPTION, this.description);
 		return result;
 	}
 	
 	
 	public static Skill fromJSON(JSONObject object) {
-		return new Skill((String) object.get(OntologyEntitiesNames.SKILL_NAME), (String) object.get(OntologyEntitiesNames.SKILL_ID), (String) object.get(OntologyEntitiesNames.DESCRIPTION));			
+		return new Skill((String) object.get(GrootEntitiesNames.SKILL_NAME), (String) object.get(GrootEntitiesNames.SKILL_ID), (String) object.get(GrootEntitiesNames.DESCRIPTION));			
 	}
 
 	public String getSkillName() {

@@ -1,6 +1,6 @@
 package it.cnr.isti.sedc.bieco.groot;
 
-public abstract class OntologyEntitiesNames {
+public abstract class GrootEntitiesNames {
 	public static final String SOS_NAME = "sosName";
 	public static final String SOS_ID = "sosId";
 	
@@ -50,6 +50,12 @@ public abstract class OntologyEntitiesNames {
 	
 	public static final String ONTOLOGY_SOSS = "SoSs";
 	public static final String ONTOLOGY_CONTENT = "ontologyContent";
+	
+	
+	
+	public static final String GROOT_REQUEST = "GrootRequest";
+	
+	public static final String 	ACCESS_CONTROL_POLICY_CONTENT = "ACPolicy";
 }
 
 

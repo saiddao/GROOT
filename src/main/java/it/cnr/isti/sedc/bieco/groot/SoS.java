@@ -64,7 +64,7 @@ public class SoS {
 	}
 
 	public static SoS fromJSON(JSONObject object) {
-		return new SoS((String) object.get(OntologyEntitiesNames.SOS_NAME), (String) object.get(OntologyEntitiesNames.SOS_ID), (String) object.get(OntologyEntitiesNames.DESCRIPTION));
+		return new SoS((String) object.get(GrootEntitiesNames.SOS_NAME), (String) object.get(GrootEntitiesNames.SOS_ID), (String) object.get(GrootEntitiesNames.DESCRIPTION));
 				
 				/**
 				 * (String) ((JSONObject) object.get("address")).get("street"),
@@ -76,9 +76,9 @@ public class SoS {
 	public JSONObject toJson() {
 		JSONObject result = new JSONObject();
 		
-		result.put(OntologyEntitiesNames.SOS_NAME, this.soSname);
-		result.put(OntologyEntitiesNames.SOS_ID, this.sosId);
-		result.put(OntologyEntitiesNames.DESCRIPTION, this.description);
+		result.put(GrootEntitiesNames.SOS_NAME, this.soSname);
+		result.put(GrootEntitiesNames.SOS_ID, this.sosId);
+		result.put(GrootEntitiesNames.DESCRIPTION, this.description);
 /**
  * 
 
@@ -119,15 +119,15 @@ public class SoS {
 			System.out.println("Value = "+value);
 			switch (keyAsString) {
 			
-			case OntologyEntitiesNames.SOS_NAME:
+			case GrootEntitiesNames.SOS_NAME:
 				this.soSname = (String) value;
 				break;
 				
-			case OntologyEntitiesNames.SOS_ID:
+			case GrootEntitiesNames.SOS_ID:
 				this.sosId = (String) value;
 				break;
 			
-			case OntologyEntitiesNames.DEVICES:
+			case GrootEntitiesNames.DEVICES:
 				parseDevices ((JSONArray) value);
 				break;
 
